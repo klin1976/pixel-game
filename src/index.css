@@ -1,0 +1,114 @@
+:root {
+  --color-bg: #121212;
+  --color-primary: #00ff00; /* Terminal Green */
+  --color-secondary: #ff00ff; /* Hot Pink */
+  --color-accent: #00ffff; /* Cyan */
+  --color-text: #ffffff;
+  --color-surface: #2a2a2a;
+  --color-border: #ffffff;
+  
+  --font-pixel: 'Press Start 2P', system-ui, cursive;
+  
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 32px;
+  
+  --border-width: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none; /* Make pixels crisp */
+  image-rendering: pixelated;
+  overflow: hidden; /* For full screen scanline/CRT effect */
+  height: 100vh;
+  width: 100vw;
+}
+
+button {
+  font-family: var(--font-pixel);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Scrollbar styling for any overflow containers */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface); 
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary); 
+}
+
+/* Utilities */
+.pixel-border {
+  box-shadow: 
+    -4px 0 0 0 white,
+    4px 0 0 0 white,
+    0 -4px 0 0 white,
+    0 4px 0 0 white;
+  margin: 4px;
+}
+
+/* Scanlines Effect */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.2) 50%,
+    rgba(0,0,0,0.2)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: scanlineScroll 0.5s linear infinite; /* Very subtle jitter or scroll if needed */
+}
+
+@keyframes scanlineScroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 4px; }
+}
+
+.crt-flicker {
+    animation: flicker 0.15s infinite;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.02);
+    opacity: 0;
+    z-index: 9998;
+}
+
+@keyframes flicker {
+    0% { opacity: 0.02; }
+    5% { opacity: 0.05; }
+    10% { opacity: 0.01; }
+    15% { opacity: 0.04; }
+    30% { opacity: 0.01; }
+    60% { opacity: 0; }
+    100% { opacity: 0.02; }
+}
