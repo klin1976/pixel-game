@@ -12,6 +12,7 @@ export const useGameStore = create((set, get) => ({
     currentQuestionIndex: 0,
     score: 0,
     answers: [], // Record of correctly answered or not, e.g. [true, false, true]
+    userAnswers: [], // Record of selected option indices [0, 2, 1, ...]
     passThreshold: PASS_THRESHOLD,
 
     answering: false,
@@ -22,7 +23,7 @@ export const useGameStore = create((set, get) => ({
         const { userId } = get();
         if (!userId.trim()) return;
 
-        set({ gameState: 'loading', error: null, score: 0, answers: [], currentQuestionIndex: 0, answering: false });
+        set({ gameState: 'loading', error: null, score: 0, answers: [], userAnswers: [], currentQuestionIndex: 0, answering: false });
 
         try {
             const questions = await api.fetchQuestions(QUESTION_COUNT);
@@ -59,8 +60,10 @@ export const useGameStore = create((set, get) => ({
         // Calculate new score immediately based on current state + this answer
         const newScore = isCorrect ? score + 1 : score;
         const newAnswers = [...answers, isCorrect];
+        const { userAnswers } = get();
+        const newUserAnswers = [...userAnswers, selectedOption];
 
-        set({ answers: newAnswers, score: newScore });
+        set({ answers: newAnswers, score: newScore, userAnswers: newUserAnswers });
 
         if (currentQuestionIndex + 1 < questions.length) {
             setTimeout(() => {
@@ -103,7 +106,12 @@ export const useGameStore = create((set, get) => ({
             currentQuestionIndex: 0,
             score: 0,
             answers: [],
+            userAnswers: [],
             error: null
         });
-    }
+    },
+
+    // For review feature
+    showReview: () => set({ gameState: 'review' }),
+    hideReview: () => set({ gameState: 'result' })
 }));

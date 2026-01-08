@@ -3,6 +3,7 @@ import { Layout } from './components/Layout';
 import { Home } from './screens/Home';
 import { Quiz } from './screens/Quiz';
 import { Result } from './screens/Result';
+import { Review } from './screens/Review';
 import { useGameStore } from './hooks/useGame';
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
         return <div style={{ color: 'var(--color-accent)', fontSize: '2rem' }}>UPLOADING RESULTS...</div>;
       case 'result':
         return <Result />;
+      case 'review':
+        return <Review />;
       case 'error':
         // Simple error handling
         return (

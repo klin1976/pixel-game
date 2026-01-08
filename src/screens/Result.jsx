@@ -4,7 +4,7 @@ import { useGameStore } from '../hooks/useGame';
 import { PixelCard, PixelButton } from '../components/PixelCard';
 
 export const Result = () => {
-    const { score, questions, passThreshold, restartGame, error } = useGameStore();
+    const { score, questions, passThreshold, restartGame, showReview, error } = useGameStore();
     const passed = score >= passThreshold;
 
     useEffect(() => {
@@ -65,6 +65,10 @@ export const Result = () => {
 
                 <PixelButton onClick={restartGame} variant="primary">
                     TRY AGAIN
+                </PixelButton>
+
+                <PixelButton onClick={showReview} variant="secondary" style={{ marginLeft: '0', marginTop: '16px' }}>
+                    REVIEW
                 </PixelButton>
             </PixelCard>
         </div>
